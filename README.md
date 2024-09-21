@@ -1,22 +1,15 @@
-# Liquid Staking Rollup
+# sToken - A Micro Rollup based multi-utility LST
 
-This project implements a liquid staking system using AVL tokens and ETH, built on a rollup architecture. It provides a set of state transition functions (STFs) to manage various operations related to staking, bridging, and token management.
-
+sToken is a Liquid Staking rollup based token working on across multiple chains allowing users to bridge ETH from any chain, using HyperLane to get LST tokens in return. It also implements a reward mechanism using 1inch ERC20 Plugins.
 ## Features
 
-- ERC20-like token functionality (create, mint, burn, transfer, approve, transferFrom)
-- Bridging between AVL and ETH
+- Support for both AVL and ETH
+- Support for multiple chains using Hyperlane
 - Liquid staking mechanism
-- Account management for both EVM and AVL addresses
+- Rewards Mechanism using 1inch ERC20 Plugin.
+- Rollup that manages the bridging using Stackr on AvailDA
 
 ## Key Components
-
-### State
-
-The system maintains three types of state leaves:
-- `erc20leaves`: Manages ERC20-like token balances and allowances
-- `bridgeleaves`: Tracks bridging requests between AVL and ETH
-- `avlleaves`: Manages AVL staking accounts
 
 ### State Transition Functions (STFs)
 
@@ -29,32 +22,15 @@ The system maintains three types of state leaves:
    - `transferFrom`: Transfer tokens on behalf of another account
 
 2. Bridging
-   - `requestBridge`: Initiate a bridge request from AVL to ETH
+   - `requestBridge`: Initiate a bridge request from Rollup to L1
    - `fulfillBridge`: Complete a bridge request
 
 3. AVL Staking
-   - `bridgeAVLtoApp`: Bridge AVL tokens to the application
+   - `bridgeAVLtoApp`: Bridge AVL tokens to the Micro Rollup
    - `claimAVLAccount`: Claim an AVL account
    - `requestStakeAVL`: Request to stake AVL tokens
    - `fulfillStakeAVL`: Fulfill an AVL staking request
 
-## Usage
-
-To use these functions, import them into your rollup implementation:
-
-```typescript
-import { transitions } from './path/to/this/file';
-```
-
-Ensure that your rollup framework is compatible with the `STF` and `Transitions` types from `@stackr/sdk/machine`.
-
-## State Structure
-
-The state follows the `StokenState` interface, which should include:
-
-- `erc20leaves`: Array of ERC20-like account leaves
-- `bridgeleaves`: Array of bridge request leaves
-- `avlleaves`: Array of AVL staking account leaves
 
 ## Important Notes
 
@@ -62,18 +38,15 @@ The state follows the `StokenState` interface, which should include:
 - The system uses both EVM addresses and AVL addresses, with a claiming mechanism to link them.
 - Bridging and staking operations are multi-step processes to ensure proper verification and execution.
 
-## Dependencies
+## Possible Use Cases
+- The liquid staking tokens can be integrated into various DeFi protocols such as lending platforms, automated market makers (AMMs), and yield aggregators.
+- Users can diversify their staked assets across different chains, potentially reducing the risk associated with staking on a single network.
+- By providing a bridge to Ethereum, the system can enhance the overall liquidity and utility of staked assets from other proof-of-stake networks.
 
-- `@stackr/sdk/machine`: For STF and Transitions types
-- `@polkadot/util-crypto`: For blake2 hashing
-- `ethers`: For ZeroAddress constant
+## Tech Stack
 
-Make sure to install these dependencies before using the system.
-
-## Contributing
-
-[Add your contribution guidelines here]
-
-## License
-
-[Add your chosen license here]
+- Stackr + AvailDA - For the rollup
+- NextJS - For the frontend
+- avail-js-sdk - For the interactions for avail on the frontend.
+- HyperLane - for the cross chain message passing
+- 1inch ERC20 Plugin - for providing the rewards to the users for holding stokens.
