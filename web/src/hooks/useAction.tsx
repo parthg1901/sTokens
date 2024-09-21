@@ -67,7 +67,6 @@ export const useAction = () => {
     }
   };
 
-  const MNEMONIC =;
 
   const submitOperator = async (name: string, payload: any) => {
     const account = mnemonicToAccount(process.env.NEXT_PUBLIC_MNEMONIC!); // Create account from private key
