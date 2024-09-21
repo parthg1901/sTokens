@@ -1,5 +1,6 @@
 import { urlJoin } from "@/lib/utils";
 import { MRUInfo } from "./types";
+import {Leaves} from "@/app/page";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL as string;
 
@@ -16,7 +17,7 @@ const getInfo = async () => {
 };
 
 const getState = async () => {
-  return get<{ state: number }>();
+  return get<{ state: Leaves }>();
 };
 
 /* SUBMIT ACTION */
@@ -24,7 +25,7 @@ const submitAction = async (
   path: string,
   data: any
 ): Promise<{
-  logs: { name: string; value: number }[];
+  logs: { name: string; value: Leaves }[];
   ackHash: string;
 }> => {
   const res = await fetch(urlJoin(BASE_URL, path), {

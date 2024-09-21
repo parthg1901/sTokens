@@ -1,82 +1,79 @@
-# 🎒 Stackr Hackerpack
+# Liquid Staking Rollup
 
-<h4 align="center">
-  <a href="https://docs.stf.xyz">Docs</a> |
-  <a href="https://github.com/stackrlabs/hackerpack">GitHub</a> |
-  <a href="https://stackrlabs.xyz">Website</a>
-</h4>
+This project implements a liquid staking system using AVL tokens and ETH, built on a rollup architecture. It provides a set of state transition functions (STFs) to manage various operations related to staking, bridging, and token management.
 
-📦 **Stackr Hackerpack** is a collection of tools and libraries to help you build decentralized applications on the Stackr ecosystem. It includes a basic Counter micro-rollup and a companion Next.js frontend to help you get started with your project.
+## Features
 
-🛠️ Built using Stackr's SDK, NextJS, Privy, Wagmi and Viem.
+- ERC20-like token functionality (create, mint, burn, transfer, approve, transferFrom)
+- Bridging between AVL and ETH
+- Liquid staking mechanism
+- Account management for both EVM and AVL addresses
 
-- 💭 **Opinionated APIs**: The included micro-rollup has a server exposed with some opinionated endpoints to get started easily.
-- 🪝 **Frontend hooks**: Hooks that makes it breezy to submit actions to Micro-rollup.
-- 🔐 **Embedded Wallet**: We have pre-configured Privy in this example, that can be easily extended to support in-browser wallets as wells as Embedded wallets linked to other identity providers.
+## Key Components
 
-## Requirements
+### State
 
-Below are the requirements to get started with the pack:
+The system maintains three types of state leaves:
+- `erc20leaves`: Manages ERC20-like token balances and allowances
+- `bridgeleaves`: Tracks bridging requests between AVL and ETH
+- `avlleaves`: Manages AVL staking accounts
 
-- [Node (LTS)](https://nodejs.org/en/download/)
-- [npm](https://github.com/npm/cli)
-- [Git](https://git-scm.com/downloads)
+### State Transition Functions (STFs)
 
-## Get Started
+1. Token Management
+   - `create`: Create a new account
+   - `mint`: Mint new tokens
+   - `burn`: Burn existing tokens
+   - `transfer`: Transfer tokens between accounts
+   - `approve`: Approve spending allowance
+   - `transferFrom`: Transfer tokens on behalf of another account
 
-To quickly get started, you can clone this repository and follow the steps below:
+2. Bridging
+   - `requestBridge`: Initiate a bridge request from AVL to ETH
+   - `fulfillBridge`: Complete a bridge request
 
-1. Clone the repository
+3. AVL Staking
+   - `bridgeAVLtoApp`: Bridge AVL tokens to the application
+   - `claimAVLAccount`: Claim an AVL account
+   - `requestStakeAVL`: Request to stake AVL tokens
+   - `fulfillStakeAVL`: Fulfill an AVL staking request
 
-```bash
-git clone git@github.com:stackrlabs/hackerpack.git
-# OR if you want to clone particular branch, use command like below
-git clone -b <branch> git@github.com:stackrlabs/hackerpack.git
+## Usage
+
+To use these functions, import them into your rollup implementation:
+
+```typescript
+import { transitions } from './path/to/this/file';
 ```
 
-2. Initialize the project by running the setup script
+Ensure that your rollup framework is compatible with the `STF` and `Transitions` types from `@stackr/sdk/machine`.
 
-```bash
-cd hackerpack
-./setup.sh
-```
+## State Structure
 
-3. Run the project with `mprocs`
+The state follows the `StokenState` interface, which should include:
 
-```bash
-npm run dev
-```
+- `erc20leaves`: Array of ERC20-like account leaves
+- `bridgeleaves`: Array of bridge request leaves
+- `avlleaves`: Array of AVL staking account leaves
 
-This sets up the micro-rollup and the web app to run concurrently. You can now visit `http://localhost:3000` to see the web app in action and interact with the rollup by sending actions.
+## Important Notes
 
-By default
-Rollup runs on port `3210`
-Web App runs on port `3000`
+- All operations perform various checks to ensure security and consistency (e.g., balance checks, authorization checks).
+- The system uses both EVM addresses and AVL addresses, with a claiming mechanism to link them.
+- Bridging and staking operations are multi-step processes to ensure proper verification and execution.
 
-> [!CAUTION]
-> The project comes initialized with a default private key and Privy appId. It is strongly recommended to replace these with your own values in `counter/.env` and `web/.env` files respectively before deploying your application.
+## Dependencies
 
-## Documentation 📕
+- `@stackr/sdk/machine`: For STF and Transitions types
+- `@polkadot/util-crypto`: For blake2 hashing
+- `ethers`: For ZeroAddress constant
 
-Checkout our [docs](https://docs.stf.xyz) to learn more about Micro-rollups, the Stackr ecosystem, and how to get started with new era of decentralized applications.
+Make sure to install these dependencies before using the system.
 
-## Wallet Setups ⚙️
+## Contributing
 
-This repo has been setup with [Privy](https://www.privy.io/), and we have included three modes of wallet setups:
-| Mode | Description | Branch | Deployment |
-| --- | --- | --- | --- |
-| Embedded Wallet with non-custodial wallet Auth | Uses Privy's embedded wallet to sign transactions (signing pop-up can be suppressed) | [`main`](https://github.com/stackrlabs/hackerpack/) | [Try it](https://main.hackerpack.stf.xyz) |
-| Embedded Wallet with Social/Email Auth | Uses Privy's embedded wallet to sign transactions (signing pop-up can be suppressed) | [`social`](https://github.com/stackrlabs/hackerpack/tree/social) | [Try it](https://social.hackerpack.stf.xyz) |
-| Using non-custodial wallet | Uses your wallet to sign transactions (requires pop-up) | [`non-custodial`](https://github.com/stackrlabs/hackerpack/tree/non-custodial) | [Try it](https://non-custodial.hackerpack.stf.xyz) |
+[Add your contribution guidelines here]
 
-## Hosting ☁️
+## License
 
-- Frontend: You can deploy the NextJS application to Vercel, Netlify, [GitHub Pages](https://www.freecodecamp.org/news/how-to-deploy-next-js-app-to-github-pages/) or even other providers like [AWS Amplify](https://aws.amazon.com/amplify/) etc.
-
-- Micro-rollup: We have extensive guide [here](https://docs.stf.xyz/build/guides/hosting)
-
-## More Micro-rollups 🤝
-
-Refer to the [awesome-micro-rollups](https://github.com/aashutoshrathi/awesome-micro-rollups) for a curated list of applications leveraging Micro-rollups.
-
-For more information, you can reach out to us on our [Discord](https://discord.stackrlabs.xyz/).
+[Add your chosen license here]
